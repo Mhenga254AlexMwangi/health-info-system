@@ -1,0 +1,20 @@
+<!doctype html>
+<title>Client Profile</title>
+<h1>Client Profile</h1>
+
+<!-- Display selected client's information -->
+<p><strong>Name:</strong> {{ client.name }}</p>
+<p><strong>Age:</strong> {{ client.age }}</p>
+<p><strong>Gender:</strong> {{ client.gender }}</p>
+
+<!-- Show the programs this client is enrolled in -->
+<p><strong>Enrolled Programs:</strong>
+  {% if client.programs %}
+    {{ client.programs | join(', ') }}
+  {% else %}
+    None
+  {% endif %}
+</p>
+
+<!-- Navigation -->
+<p><a href="/">&#8592; Back to Dashboard</a></p>

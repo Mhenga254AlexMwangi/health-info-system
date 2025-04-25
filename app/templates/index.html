@@ -1,0 +1,83 @@
+<!doctype html>
+<title>Health Information System</title>
+
+<!-- Main heading -->
+<h1>Health Info system  Created by Alex Mwangi</h1>
+
+
+
+<!-- Section: Register Client -->
+
+<h2>Register Client</h2>
+<form method="POST" action="/register_client">
+  <!-- collect basic client info -->
+  Name: <input type="text" name="name" required>
+  Age: <input type="number" name="age" required>
+  Gender: 
+  <select name="gender">
+    <option>Male</option>
+    <option>Female</option>
+    <option>Other</option> <!-- added Other just in case -->
+  </select>
+  <button type="submit">Register</button>
+</form>
+
+
+<!-- Section: Create Program -->
+
+<h2>Create Health Program</h2>
+<form method="POST" action="/create_program">
+  <!-- basic details for the health program -->
+  Name: <input type="text" name="program_name" required>
+  Description: <input type="text" name="description" required>
+  <button type="submit">Create</button>
+</form>
+
+<!-- Section: Enroll Client -->
+
+<h2>Enroll Client</h2>
+<form method="POST" action="/enroll">
+  <!-- Note: User must know the client ID to enroll -->
+  Client ID: <input type="number" name="client_id" required>
+
+  <!-- dynamically show all programs -->
+  Programs:
+  {% for p in programs %}
+    <!-- allow selecting multiple programs -->
+    <label><input type="checkbox" name="programs" value="{{ p.name }}"> {{ p.name }}</label>
+  {% endfor %}
+  <br><button type="submit">Enroll</button>
+</form>
+
+
+<!-- Section: Search -->
+
+<h2>Search Clients</h2>
+<form method="GET" action="/">
+  <!-- simple search bar (just name for now) -->
+  <input type="text" name="search" placeholder="Search by name">
+  <button type="submit">Search</button>
+</form>
+
+
+<!-- Section: Display all clients -->
+
+<h2>All Clients</h2>
+<p><a href="/logout">Logout</a></p>
+
+
+<!-- loop through clients and show their info -->
+{% for client in clients %}
+  <div style="margin-bottom: 1em; border: 1px solid #ccc; padding: 10px;">
+    <strong>{{ client.name }}</strong> (ID: {{ client.id }})<br>
+    Age: {{ client.age }} | Gender: {{ client.gender }}<br>
+
+    Enrolled Programs: {{ client.programs|join(", ") if client.programs else "None" }}<br>
+    <a href="/client/{{ client.id }}">View Profile</a> |
+<a href="/api/client/{{ client.id }}">API</a>
+
+  </div>
+{% else %}
+  <!-- fallback if no clients -->
+  <p>No clients yet.</p>
+{% endfor %}
