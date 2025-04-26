@@ -27,7 +27,7 @@ def login():
         username = request.form["username"]
         password = request.form["password"]
         # Hardcoded credentials for now
-        if username == "admin" and password == "alex123":
+        if username == "admin" and password == "admin123":
             session["logged_in"] = True
             return redirect(url_for("index"))
         return render_template("login.html", error="Invalid credentials")

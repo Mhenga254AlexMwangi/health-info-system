@@ -38,5 +38,5 @@ python3 -m venv venv
 source venv/bin/activate  # am using linux ubuntu, for windows you will confirm
 pip install -r requirements.txt # which technically is just pip install flask
 
-
+#i have added internal css to make it look nice
 

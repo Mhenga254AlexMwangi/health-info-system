@@ -1,83 +1,135 @@
 <!doctype html>
 <title>Health Information System</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f5f5f5;
+  }
+  
+  h1 {
+    color: #2c3e50;
+    text-align: center;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 10px;
+  }
+  
+  h2 {
+    color: #3498db;
+    margin-top: 30px;
+    border-left: 4px solid #3498db;
+    padding-left: 10px;
+  }
+  
+  form {
+    background-color: white;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+  }
+  
+  input, select {
+    padding: 8px;
+    margin: 5px 10px 5px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  button {
+    background-color: #3498db;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #2980b9;
+  }
+  
+  .client-card {
+    background-color: white;
+    margin-bottom: 1em;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  
+  a {
+    color: #3498db;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
+  label {
+    margin-right: 15px;
+    display: inline-block;
+  }
+</style>
 
-<!-- Main heading -->
-<h1>Health Info system  Created by Alex Mwangi</h1>
-
-
+<!-- Rest of your HTML content remains the same -->
+<h1>Health Info system Created by Alex Mwangi</h1>
 
 <!-- Section: Register Client -->
-
 <h2>Register Client</h2>
 <form method="POST" action="/register_client">
-  <!-- collect basic client info -->
   Name: <input type="text" name="name" required>
   Age: <input type="number" name="age" required>
   Gender: 
   <select name="gender">
     <option>Male</option>
     <option>Female</option>
-    <option>Other</option> <!-- added Other just in case -->
+    <option>Other</option>
   </select>
   <button type="submit">Register</button>
 </form>
 
-
 <!-- Section: Create Program -->
-
 <h2>Create Health Program</h2>
 <form method="POST" action="/create_program">
-  <!-- basic details for the health program -->
   Name: <input type="text" name="program_name" required>
   Description: <input type="text" name="description" required>
   <button type="submit">Create</button>
 </form>
 
 <!-- Section: Enroll Client -->
-
 <h2>Enroll Client</h2>
 <form method="POST" action="/enroll">
-  <!-- Note: User must know the client ID to enroll -->
   Client ID: <input type="number" name="client_id" required>
-
-  <!-- dynamically show all programs -->
   Programs:
   {% for p in programs %}
-    <!-- allow selecting multiple programs -->
     <label><input type="checkbox" name="programs" value="{{ p.name }}"> {{ p.name }}</label>
   {% endfor %}
   <br><button type="submit">Enroll</button>
 </form>
 
-
 <!-- Section: Search -->
-
 <h2>Search Clients</h2>
 <form method="GET" action="/">
-  <!-- simple search bar (just name for now) -->
   <input type="text" name="search" placeholder="Search by name">
   <button type="submit">Search</button>
 </form>
 
-
 <!-- Section: Display all clients -->
-
 <h2>All Clients</h2>
 <p><a href="/logout">Logout</a></p>
 
-
-<!-- loop through clients and show their info -->
 {% for client in clients %}
-  <div style="margin-bottom: 1em; border: 1px solid #ccc; padding: 10px;">
+  <div class="client-card">
     <strong>{{ client.name }}</strong> (ID: {{ client.id }})<br>
     Age: {{ client.age }} | Gender: {{ client.gender }}<br>
-
     Enrolled Programs: {{ client.programs|join(", ") if client.programs else "None" }}<br>
     <a href="/client/{{ client.id }}">View Profile</a> |
-<a href="/api/client/{{ client.id }}">API</a>
-
+    <a href="/api/client/{{ client.id }}">API</a>
   </div>
 {% else %}
-  <!-- fallback if no clients -->
   <p>No clients yet.</p>
 {% endfor %}
